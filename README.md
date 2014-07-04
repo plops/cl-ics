@@ -21,6 +21,13 @@ version filename &optional (append-extension t)
 Returns 0 if it is not an ICS file, or the version number if it is.
 
 
+```
+load-preview filename &optional (plane-number 0)
+```
+
+Read a preview (2D) image out of an ICS file. Returns an uint8 array.
+
+
 ```C
 
 ICSEXPORT Ics_Error IcsLoadPreview (char const* filename, size_t planenumber,

@@ -3,3 +3,18 @@
 
 (defun version (filename &optional (append-extension t))
   (%version filename (if append-extension 0 1)))
+
+(defun load-preview (filename &optional (plane-number 0))
+  (with-foreign-objects ((w :sizet)
+			 (h :sizet)
+			 (dst :pointer))
+    (%load-preview filename plane-number dst w h)
+    (let* ((hh (mem-ref h :sizet))
+	   (ww (mem-ref w :sizet))
+	   (d (mem-ref dst :pointer))
+	   (a (make-array (list hh ww) :element-type '(unsigned-byte 8))))
+      (dotimes (j hh)
+	(dotimes (i ww)
+	 (setf (aref a j i) (mem-aref d :uint8 (+ i (* j ww))))))
+      (%free d)
+      a)))

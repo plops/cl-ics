@@ -28,3 +28,5 @@
   (w (:pointer :sizet))
   (h (:pointer :sizet)))
 
+
+(defcfun (%free "free") :void (ptr :pointer))
