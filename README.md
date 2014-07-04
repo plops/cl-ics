@@ -8,14 +8,20 @@ cytometry standard format.
 
 ## usage:
 
-```C
-ICSEXPORT char const* IcsGetLibVersion (void);
-/* Returns a string that can be used to compare with ICSLIB_VERSION to check
- * if the version of the library is the same as that of the headers. */
+```
+%get-lib-version => string
+```
 
-ICSEXPORT int IcsVersion (char const* filename, int forcename);
-/* Returns 0 if it is not an ICS file, or the version number if it is.
- * If forcename is non-zero, no extension is appended. */
+Returns a string like "1.5.2".
+
+```
+version filename &optional (append-extension t)
+```
+
+Returns 0 if it is not an ICS file, or the version number if it is.
+
+
+```C
 
 ICSEXPORT Ics_Error IcsLoadPreview (char const* filename, size_t planenumber,
                                     void** dest, size_t* xsize, size_t* ysize);

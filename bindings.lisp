@@ -6,12 +6,11 @@
 ;; function definitions
 
 (defcfun (%get-lib-version "IcsGetLibVersion") :string)
-#+nil
-(%get-lib-version)
 
 (defcfun (%version "IcsVersion") :int
   (filename :string)
   (forcename :int))
+
 
 (defcenum ics-error
   (:err-ok 0)
