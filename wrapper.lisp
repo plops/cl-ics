@@ -18,3 +18,8 @@
 	 (setf (aref a j i) (mem-aref d :uint8 (+ i (* j ww))))))
       (%free d)
       a)))
+
+(defun ics-open (filename mode)
+  (with-foreign-object (ics :pointer)
+    (%open ics filename mode)
+    (mem-ref ics :pointer)))

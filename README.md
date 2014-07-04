@@ -28,26 +28,35 @@ load-preview filename &optional (plane-number 0)
 Read a preview (2D) image out of an ICS file. Returns an uint8 array.
 
 
+```
+open filename mode => ics
+```
+
+Open an ICS file for reading (mode = "r") or writing (mode =
+"w"). Returns an ICS handle (an opaque pointer).  When writing, append
+a "2" to the mode string to create an ICS version 2.0 file. Append an
+"f" to mode if, when reading, you want to force the file name to not
+change (no ".ics" is appended). Append a "l" to mode if, when reading,
+you don't want the locale forced to "C" (to read ICS files written
+with some other locale, set the locale properly then open the file
+with "rl")
+
+
+```
+%close ics
+```
+
+Close the ICS file. The ics 'stream' is no longer valid after this.
+No files are actually written until this function is called.
+
+
+```
+set-layout ics datatype dimensions
+```
+Retrieve the layout of an ICS image. Only valid if reading. 
+
+
 ```C
-
-ICSEXPORT Ics_Error IcsLoadPreview (char const* filename, size_t planenumber,
-                                    void** dest, size_t* xsize, size_t* ysize);
-/* Read a preview (2D) image out of an ICS file. The buffer is malloc'd, xsize
- * and ysize are set to the image size. The data type is always uint8. You need
- * to free() the data block when you're done. */
-
-ICSEXPORT Ics_Error IcsOpen (ICS* *ics, char const* filename, char const* mode);
-/* Open an ICS file for reading (mode = "r") or writing (mode = "w").
- * When writing, append a "2" to the mode string to create an ICS version
- * 2.0 file. Append an "f" to mode if, when reading, you want to force the file
- * name to not change (no ".ics" is appended). Append a "l" to mode if, when
- * reading, you don't want the locale forced to "C" (to read ICS files written
- * with some other locale, set the locale properly then open the file with "rl") */
-
-ICSEXPORT Ics_Error IcsClose (ICS* ics);
-/* Close the ICS file. The ics 'stream' is no longer valid after this.
- * No files are actually written until this function is called. */
-
 ICSEXPORT Ics_Error IcsGetLayout (ICS const* ics, Ics_DataType* dt, int* ndims, size_t* dims);
 /* Retrieve the layout of an ICS image. Only valid if reading. */
 
