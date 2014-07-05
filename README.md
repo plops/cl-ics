@@ -6,6 +6,10 @@ cl-ics is a foreign function binding to call libics from common lisp
 using cffi. This library allows to read and write files in the image
 cytometry standard format.
 
+This file format can be rather simple (similar to PGM) but allows
+complex double-float as well as multi-dimensional image data. It is
+supported by imagej and Matlab/dipimage.
+
 ## usage:
 
 ```
