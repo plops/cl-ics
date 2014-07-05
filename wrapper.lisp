@@ -1,5 +1,12 @@
 (in-package :ics)
 
+(defmacro with-check (&body body)
+  (let ((err (gensym)))
+    `(let ((,err ,@body))
+       (unless (= (cffi-get-value 'ics-error :err-ok) ,err)
+	 (error "error in ~a: \"~a\"" ',@body (%get-error-text ,err)
+		))
+       ,err)))
 
 (defun version (filename &optional (append-extension t))
   (%version filename (if append-extension 0 1)))
@@ -8,7 +15,8 @@
   (with-foreign-objects ((w :sizet)
 			 (h :sizet)
 			 (dst :pointer))
-    (%load-preview filename plane-number dst w h)
+    (with-check
+     (%load-preview filename plane-number dst w h))
     (let* ((hh (mem-ref h :sizet))
 	   (ww (mem-ref w :sizet))
 	   (d (mem-ref dst :pointer))
@@ -21,7 +29,8 @@
 
 (defun ics-open (filename mode)
   (with-foreign-object (ics :pointer)
-    (%open ics filename mode)
+    (with-check
+     (%open ics filename mode))
     (mem-ref ics :pointer)))
 
 (defun cffi-get-value (datatype keyword)
@@ -37,12 +46,11 @@
 (cffi-get-keyword 'ics-datatype 9)
 
 
+
 (defun set-layout (ics datatype dimensions)
   (let ((n (length dimensions)))
    (with-foreign-object (dims :sizet n)
      (dotimes (i n)
        (setf (mem-aref dims :sizet i) (aref dimensions i)))
-     (let ((err (%set-layout ics datatype n dims)))
-      (unless (= (cffi-get-value 'ics-error :err-ok) err)
-	(error "set-layut: \"~a\"" (%get-error-text err)))
-      err))))
+     (with-check
+	 (%set-layout ics datatype n dims)))))
