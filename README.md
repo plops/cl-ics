@@ -56,6 +56,19 @@ set-layout ics datatype dimensions
 Retrieve the layout of an ICS image. Only valid if reading. 
 
 
+```
+set-data
+```
+
+```
+set-compression
+```
+
+```
+%get-error-text
+```
+
+
 ```C
 ICSEXPORT Ics_Error IcsGetLayout (ICS const* ics, Ics_DataType* dt, int* ndims, size_t* dims);
 /* Retrieve the layout of an ICS image. Only valid if reading. */

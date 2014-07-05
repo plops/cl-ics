@@ -18,6 +18,9 @@
   :err-output-not-filled
   :err-alloc)
 
+(defcfun (%get-error-text "IcsGetErrorText") :string
+  (err ics-error))
+
 (defctype :sizet :unsigned-int) ;; FIXME this might be necessary to be
 				;; grovelled
 
@@ -52,13 +55,14 @@
   :complex32
   :complex64)
 
+;; (gethash :complex32 (cffi::keyword-values (funcall (cffi::find-type-parser 'ics-datatype))))
+
+
 (defcfun (%set-layout "IcsSetLayout") ics-error
   (ics :pointer)
   (datatype ics-datatype)
   (ndims :int)
   (dims :pointer))
 
-(gethash :complex32 (cffi::keyword-values (funcall (cffi::find-type-parser 'ics-datatype))))
 
-(defun set-layout (ics datatype dimensions)
-  (%set-layout ics datatype ))
+
