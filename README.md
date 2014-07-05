@@ -9,6 +9,17 @@ cytometry standard format.
 ## usage:
 
 ```
+write-ics2 filename data
+```
+
+Store the data from the array data in filename as an ICS file (version
+2). The data must have an array-storage-vector, can be multidmensional
+and of the type (complex single-float) or (complex double-float) (more
+types are straight forward to support but haven't been implemented,
+currently).
+
+
+```
 %get-lib-version => string
 ```
 
@@ -43,7 +54,7 @@ with "rl")
 
 
 ```
-%close ics
+%close ics => ics-error
 ```
 
 Close the ICS file. The ics 'stream' is no longer valid after this.
@@ -53,21 +64,32 @@ No files are actually written until this function is called.
 ```
 set-layout ics datatype dimensions
 ```
-Retrieve the layout of an ICS image. Only valid if reading. 
+
+Set the layout for an ICS image. Only valid if writing.  dimensions is
+an array containing the number of elements for each dimension.
 
 
 ```
-set-data
+set-data ics src
 ```
 
-```
-set-compression
-```
+Set the image data for an ICS image. The pointer to this data must be
+accessible until IcsClose has been called. Only valid if writing.
+src is an array.
+
 
 ```
-%get-error-text
+set-compression ics &optional compression level
 ```
 
+Set the compression method and compression parameter. Only valid if
+writing.  By default no compression is used.
+
+```
+%get-error-text ics-error => string
+```
+
+Returns a textual representation of an error. 
 
 ```C
 ICSEXPORT Ics_Error IcsGetLayout (ICS const* ics, Ics_DataType* dt, int* ndims, size_t* dims);

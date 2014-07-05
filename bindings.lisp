@@ -64,5 +64,18 @@
   (ndims :int)
   (dims :pointer))
 
+(defcfun (%set-data "IcsSetData") ics-error
+  (ics :pointer)
+  (src :pointer)
+  (n :sizet))
 
+(defcenum ics-compression
+  (:compression-uncompressed 0)
+  :compression-compress
+  :compression-gzip)
+
+(defcfun (%set-compression "IcsSetCompression") ics-error
+  (ics :pointer)
+  (compression ics-compression)
+  (level :int))
 

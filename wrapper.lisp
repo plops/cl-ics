@@ -54,3 +54,31 @@
        (setf (mem-aref dims :sizet i) (aref dimensions i)))
      (with-check
 	 (%set-layout ics datatype n dims)))))
+
+(defun set-compression (ics &optional (compression :compression-uncompressed)
+			      (level 0))
+  (with-check
+    (%set-compression ics compression level)))
+
+(defun set-data (ics src)
+  "src must be an array with array-storage-vector and must be pinned
+until %close is called."
+  (with-check
+    (%set-data ics (sb-ext:array-storage-vector src) (array-total-size src))))
+
+
+(defun ics-close (ics)
+  (with-check
+    (%close ics)))
+
+(defun write-ics2 (filename data)
+  (let ((ics (ics-open filename "w2"))
+	(datatype (let ((typ (array-element-type data)))
+		    (cond 
+		      ((equal typ '(complex single-float)) :complex32)
+		      ((equal typ '(complex double-float)) :complex64)))))
+    (set-layout ics datatype (array-dimensions data))
+    (sb-sys:with-pinned-objects (data) 
+      (set-data ics data)
+      (set-compression ics)
+      (ics-close ics))))
