@@ -21,15 +21,15 @@
 (defcfun (%get-error-text "IcsGetErrorText") :string
   (err ics-error))
 
-(defctype :sizet :unsigned-int) ;; FIXME this might be necessary to be
+(defctype sizet :unsigned-int) ;; FIXME this might be necessary to be
 				;; grovelled
 
 (defcfun (%load-preview "IcsLoadPreview") ics-error
   (filename :string)
-  (plane-number :sizet)
+  (plane-number sizet)
   (dst :pointer)
-  (w (:pointer :sizet))
-  (h (:pointer :sizet)))
+  (w (:pointer sizet))
+  (h (:pointer sizet)))
 
 
 (defcfun (%free "free") :void (ptr :pointer))
@@ -67,7 +67,7 @@
 (defcfun (%set-data "IcsSetData") ics-error
   (ics :pointer)
   (src :pointer)
-  (n :sizet))
+  (n sizet))
 
 (defcenum ics-compression
   (:compression-uncompressed 0)
