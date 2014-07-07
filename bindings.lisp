@@ -11,12 +11,58 @@
   (filename :string)
   (forcename :int))
 
-
 (defcenum ics-error
-  (:err-ok 0)
-  :err-filesize-conflict
-  :err-output-not-filled
-  :err-alloc)
+  (:err-Ok 0)
+  :Err-FSizeConflict
+  :Err-OutputNotFilled
+  :Err-Alloc
+  :Err-BitsVsSizeConfl
+  :Err-BlockNotAllowed
+  :Err-BufferTooSmall
+  :Err-CompressionProblem
+  :Err-CorruptedStream
+  :Err-DecompressionProblem
+  :Err-DuplicateData
+  :Err-EmptyField
+  :Err-EndOfHistory
+  :Err-EndOfStream
+  :Err-FCloseIcs
+  :Err-FCloseIds
+  :Err-FCopyIds
+  :Err-FOpenIcs
+  :Err-FOpenIds
+  :Err-FReadIcs
+  :Err-FReadIds
+  :Err-FTempMoveIcs
+  :Err-FWriteIcs
+  :Err-FWriteIds
+  :Err-FailWriteLine
+  :Err-IllIcsToken
+  :Err-IllParameter
+  :Err-IllegalROI
+  :Err-LineOverflow
+  :Err-MissBits
+  :Err-MissCat
+  :Err-MissLayoutSubCat
+  :Err-MissParamSubCat
+  :Err-MissRepresSubCat
+  :Err-MissSensorSubCat
+  :Err-MissSensorSubSubCat
+  :Err-MissSubCat
+  :Err-MissingData
+  :Err-NoLayout
+  :Err-NoScilType
+  :Err-NotIcsFile
+  :Err-NotValidAction
+  :Err-TooManyChans
+  :Err-TooManyDims
+  :Err-UnknownCompression
+  :Err-UnknownDataType
+  :Err-WrongZlibVersion )
+
+
+
+
 
 (defcfun (%get-error-text "IcsGetErrorText") :string
   (err ics-error))
@@ -79,3 +125,5 @@
   (compression ics-compression)
   (level :int))
 
+(defcfun (%get-data-size "IcsGetDataSize") sizet
+  (ics :pointer))
