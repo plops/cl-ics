@@ -69,6 +69,8 @@
 until %close is called."
   (let ((el-size (let ((typ (array-element-type src)))
 		   (cond 
+		     ((equal typ 'single-float) 4)
+		     ((equal typ 'double-float) 8)
 		     ((equal typ '(complex single-float)) 8)
 		     ((equal typ '(complex double-float)) 16)))))
     (with-check
@@ -84,6 +86,8 @@ until %close is called."
   (let (ics
 	(datatype (let ((typ (array-element-type data)))
 		    (cond 
+		      ((equal typ 'single-float) :real32)
+		      ((equal typ 'double-float) :real64)
 		      ((equal typ '(complex single-float)) :complex32)
 		      ((equal typ '(complex double-float)) :complex64))))
 	(dims (make-array (array-rank data)
