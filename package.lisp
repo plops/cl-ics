@@ -1,4 +1,5 @@
 (defpackage #:ics
     (:use #:cl #:cffi)
-    (:export))
+    (:export
+     #:write-ics2))
 
